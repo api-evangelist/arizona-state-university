@@ -1,0 +1,108 @@
+---
+aid: arizona-state-university
+name: Arizona State University
+description: >-
+  Arizona State University (ASU) is a large public research university based in
+  Tempe, Arizona, United States, ranked #200 in the QS World University Rankings
+  2025. ASU's confirmed public developer footprint centers on its Library
+  Research Data Repository, a Dataverse instance that exposes a documented native
+  REST API and an OAI-PMH metadata interface. ASU also operates a public course
+  catalog and class search, a CAS/Shibboleth single sign-on identity service, and
+  an official GitHub organization hosting its Unity design system and Drupal-based
+  web infrastructure. Most administrative and student-facing APIs are gated behind
+  ASURITE authentication and are not publicly documented.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/arizona-state-university/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research Data
+  - Open Data
+  - United States
+  - Arizona
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: arizona-state-university:dataverse-api
+    name: ASU Library Research Data Repository API
+    description: >-
+      The ASU Library Research Data Repository runs on the open-source Dataverse
+      platform (verified version 6.10.1) and exposes Dataverse's native REST API
+      for searching, retrieving, and depositing research datasets and metadata.
+      The info, search, and metadata endpoints respond publicly.
+    humanURL: https://dataverse.asu.edu/
+    baseURL: https://dataverse.asu.edu/api
+    tags: [ Research Data, Repository, Dataverse, Open Data, Datasets ]
+    properties:
+      - type: Documentation
+        url: https://guides.dataverse.org/en/latest/api/
+      - type: Documentation
+        url: https://dataverse.asu.edu/api/info/version
+  - aid: arizona-state-university:dataverse-oai
+    name: ASU Research Data Repository OAI-PMH
+    description: >-
+      The ASU Library Research Data Repository Dataverse OAI Archive exposes an
+      OAI-PMH 2.0 metadata harvesting endpoint. The Identify verb responds
+      publicly, allowing harvesting of dataset metadata records.
+    humanURL: https://lib.asu.edu/research/research-data-repository
+    baseURL: https://dataverse.asu.edu/oai
+    tags: [ Research Data, OAI-PMH, Metadata Harvesting, Repository ]
+    properties:
+      - type: Documentation
+        url: https://guides.dataverse.org/en/latest/admin/harvestserver.html
+  - aid: arizona-state-university:course-catalog
+    name: ASU Course Catalog & Class Search
+    description: >-
+      ASU publishes a public course catalog and class search at
+      catalog.apps.asu.edu (with a legacy interface at webapp4.asu.edu). It
+      provides searchable real-time course and section data through a web
+      interface. No officially documented public API is published; third-party
+      tools consume the catalog via scraping and undocumented endpoints.
+    humanURL: https://catalog.apps.asu.edu/catalog/classes
+    tags: [ Course Catalog, Class Search, Education, Undocumented ]
+    properties:
+      - type: Documentation
+        url: https://catalog.apps.asu.edu/catalog/classes
+  - aid: arizona-state-university:sso-cas
+    name: ASU WebAuth (CAS / Shibboleth SSO)
+    description: >-
+      ASU operates an enterprise single sign-on service using the Central
+      Authentication Service (CAS) protocol with Shibboleth/SAML federation for
+      authenticating ASURITE accounts across university web applications. The CAS
+      login endpoint responds publicly; integration is restricted to approved
+      ASU service providers.
+    humanURL: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
+    baseURL: https://weblogin.asu.edu/cas
+    tags: [ Identity, Authentication, SSO, CAS, Shibboleth, SAML ]
+    properties:
+      - type: Documentation
+        url: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
+common:
+  - type: Website
+    url: https://www.asu.edu/
+  - type: GitHub
+    url: https://github.com/ASU
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/arizona-state-university/
+  - type: Twitter
+    url: https://twitter.com/ASU
+  - type: Authentication
+    url: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
+  - type: SourceCode
+    url: https://github.com/asulibraries
+  - type: Plans
+    url: plans/arizona-state-university-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/arizona-state-university-rate-limits.yml
+  - type: FinOps
+    url: finops/arizona-state-university-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

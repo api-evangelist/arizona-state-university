@@ -1,0 +1,50 @@
+---
+name: Arizona State University
+description: Arizona State University public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/arizona-state-university/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 3
+    summary: >-
+      Verified ASU's strongest public, documented API surface is its Library
+      Research Data Repository running Dataverse 6.10.1, with a live native REST
+      API (info/version, search) and a live OAI-PMH 2.0 endpoint
+      (repositoryName "ASU Library Research Data Repository Dataverse OAI
+      Archive"). The public course catalog/class search resolves but has no
+      officially documented public API. CAS/Shibboleth SSO infrastructure is
+      live but gated to approved service providers. The official GitHub org
+      (github.com/ASU) exists and hosts the Unity design system and Drupal
+      tooling. No fabricated endpoints; every URL below was probed live.
+    endpoints:
+      - url: https://dataverse.asu.edu/api/info/version
+        status: 200
+        note: Dataverse native REST API, version 6.10.1 returned.
+      - url: https://dataverse.asu.edu/api/search?q=*
+        status: 200
+        note: Dataverse search API responds.
+      - url: https://dataverse.asu.edu/oai?verb=Identify
+        status: 200
+        note: OAI-PMH 2.0 Identify; ASU Library Research Data Repository archive.
+      - url: https://lib.asu.edu/research/research-data-repository
+        status: 200
+        note: Research Data Repository landing page.
+      - url: https://catalog.apps.asu.edu/catalog/classes
+        status: 200
+        note: Public class search; no documented public API.
+      - url: https://webapp4.asu.edu/catalog/courselist
+        status: 302
+        note: Legacy catalog interface redirects.
+      - url: https://weblogin.asu.edu/cas/login
+        status: 200
+        note: CAS single sign-on login endpoint (Shibboleth federation).
+      - url: https://github.com/ASU
+        status: 200
+        note: Official ASU GitHub organization, 9 public repos.
+      - url: https://www.asu.edu/
+        status: 200
+        note: Official university website.
+      - url: https://guides.dataverse.org/en/latest/api/
+        status: 200
+        note: Upstream Dataverse API documentation.
