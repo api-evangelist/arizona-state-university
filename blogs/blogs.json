@@ -1,0 +1,14 @@
+{
+  "repo": "arizona-state-university",
+  "feeds": [
+    {
+      "source": "https://news.asu.edu/",
+      "feed_url": "https://news.asu.edu/rss",
+      "title": "ASU News RSS Feed",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-06-03T00:00:00Z"
+}

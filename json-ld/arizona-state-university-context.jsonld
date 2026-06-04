@@ -1,0 +1,34 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "asu": "https://www.asu.edu/#vocab/",
+    "name": "schema:name",
+    "url": "schema:url",
+    "description": "schema:description",
+    "CollegeOrUniversity": "schema:CollegeOrUniversity",
+    "Dataset": "schema:Dataset",
+    "DataCatalog": "schema:DataCatalog",
+    "Course": "schema:Course",
+    "identifier": "schema:identifier",
+    "global_id": {
+      "@id": "schema:identifier",
+      "@type": "schema:PropertyValue"
+    },
+    "publisher": "schema:publisher",
+    "type": "asu:objectType",
+    "items": {
+      "@id": "schema:hasPart",
+      "@container": "@set"
+    },
+    "total_count": "schema:numberOfItems"
+  },
+  "@type": "CollegeOrUniversity",
+  "name": "Arizona State University",
+  "url": "https://www.asu.edu/",
+  "description": "Large public research university based in Tempe, Arizona, United States, cataloged in the API Evangelist network for its public developer footprint including the ASU Library Research Data Repository (Dataverse) API.",
+  "asu:apiCatalog": {
+    "@type": "DataCatalog",
+    "name": "ASU Library Research Data Repository",
+    "url": "https://dataverse.asu.edu/"
+  }
+}
