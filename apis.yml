@@ -83,6 +83,10 @@ apis:
       - type: Documentation
         url: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
 common:
+  - type: VulnerabilityDisclosure
+    url: security/arizona-state-university-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/arizona-state-university-domain-security.yml
   - type: Website
     url: https://www.asu.edu/
   - type: GitHub
