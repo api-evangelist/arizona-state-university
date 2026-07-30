@@ -12,9 +12,21 @@ description: >-
   web infrastructure. Most administrative and student-facing APIs are gated behind
   ASURITE authentication and are not publicly documented.
 type: Index
+accessModel:
+  pricing: free
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Free
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/arizona-state-university.png
 url: https://raw.githubusercontent.com/api-evangelist/arizona-state-university/refs/heads/main/apis.yml
 tags:
   - Education
