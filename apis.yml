@@ -2,126 +2,447 @@
 aid: arizona-state-university
 name: Arizona State University
 description: >-
-  Arizona State University (ASU) is a large public research university based in
-  Tempe, Arizona, United States, ranked #200 in the QS World University Rankings
-  2025. ASU's confirmed public developer footprint centers on its Library
-  Research Data Repository, a Dataverse instance that exposes a documented native
-  REST API and an OAI-PMH metadata interface. ASU also operates a public course
-  catalog and class search, a CAS/Shibboleth single sign-on identity service, and
-  an official GitHub organization hosting its Unity design system and Drupal-based
-  web infrastructure. Most administrative and student-facing APIs are gated behind
-  ASURITE authentication and are not publicly documented.
+  Arizona State University (ASU) is a large public research university based in Tempe, Arizona,
+  United States, and one of the largest by enrolment in the country. Its programmable footprint is
+  real but narrow, and almost none of it is presented as a developer product. ASU operates no public
+  developer portal, no self-service API keys and no open data portal — api.asu.edu, data.asu.edu,
+  open.asu.edu and developer.asu.edu do not resolve. What it does operate, verified by live probe on
+  2026-09-01, is an identity and metadata layer: a Shibboleth SAML 2.0 Identity Provider registered
+  in the InCommon Federation under entityID urn:mace:incommon:asu.edu, serving its own signed
+  metadata from shibboleth2.asu.edu; a CAS single sign-on service at weblogin.asu.edu; and THREE
+  independent OAI-PMH 2.0 repositories on ASU's own hosts — the Library Research Data Repository
+  (a self-built Dataverse, build string asu-6.11-oai-rights, 104 datasets under DOI prefix
+  10.48349/ASU) plus KEEP and PRISM, the ASU Library Islandora deployments developed in public at
+  github.com/asulibraries. ASU also runs its own course-catalog microservices API and a myASU data
+  platform on its own hosts, but both are OAuth-gated and undocumented for outside developers. It is
+  a registrant in DataCite (member ASU, repository ASU.ASUL), Crossref (member 37851, prefix
+  10.58875) and ROR (03efmqc40). No vendor contract is held under this slug: the repository software
+  ASU runs is open source and self-hosted, and the specification for it belongs to the projects that
+  wrote it, not to ASU.
 type: Index
+x-type: university
+x-category: Public Research University
 deliveryModel:
   model: saas
   open_source: false
   commercial: true
-  callable_host: false
+  callable_host: true
   label: Hosted service · you call their endpoint
   confidence: medium
   source:
-  - pricing
-  generated: '2026-08-28'
-  method: derived
+  - probe
+  generated: '2026-09-01'
+  method: probed
 accessModel:
   pricing: free
-  onboarding: unknown
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Free
-  confidence: medium
+  try_now: true
+  public: true
+  label: Free · No registration (institution-operated read surfaces)
+  confidence: high
   source:
-  - plans
-  generated: '2026-07-22'
-  method: derived
+  - authentication
+  - probe
+  generated: '2026-09-01'
+  method: probed
+  note: >-
+    The anonymous surfaces — the Dataverse read API and the three OAI-PMH endpoints — take no key
+    and no signup, verified with no credentials on 2026-09-01. Everything else (CAS, the catalog
+    microservices, the myASU data platform) is closed to outside developers with no public
+    registration path at all.
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/arizona-state-university.png
 url: https://raw.githubusercontent.com/api-evangelist/arizona-state-university/refs/heads/main/apis.yml
 tags:
-  - Education
-  - Higher Education
   - University
-  - Research Data
-  - Open Data
+  - Higher Education
+  - Education
   - United States
   - Arizona
+  - Public Research University
+  - Research Data
+  - Research Repository
+  - Identity Federation
+  - OAI-PMH
+  - Course Catalog
+  - Library
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 specificationVersion: '0.23'
 apis:
-  - aid: arizona-state-university:dataverse-api
-    name: ASU Library Research Data Repository API
+  - aid: arizona-state-university:shibboleth-idp
+    name: ASU Shibboleth SAML 2.0 Identity Provider
     description: >-
-      The ASU Library Research Data Repository runs on the open-source Dataverse
-      platform (verified version 6.10.1) and exposes Dataverse's native REST API
-      for searching, retrieving, and depositing research datasets and metadata.
-      The info, search, and metadata endpoints respond publicly.
-    humanURL: https://dataverse.asu.edu/
+      ASU's own Shibboleth Identity Provider, entityID urn:mace:incommon:asu.edu, asserting the
+      scope asu.edu. ASU publishes the signed entity descriptor from its own host at
+      shibboleth2.asu.edu (200, 1559 bytes, application/xml) as well as through the InCommon MDQ
+      service. Advertises SAML 2.0 over HTTP-Redirect and HTTP-POST SingleSignOnService bindings,
+      with mdui:UIInfo carrying the institution's display name, information URL and privacy
+      statement. Institution-operated by definition, machine-readable, and the single most
+      under-catalogued programmable asset a university runs. It is not a public developer API: an
+      application cannot obtain an assertion without being registered as a service provider in the
+      federation.
+    humanURL: https://getprotected.asu.edu/services
+    baseURL: https://shibboleth2.asu.edu/idp/shibboleth
+    tags: [ Identity, SSO, SAML, Shibboleth, Federation, InCommon ]
+    properties:
+      - type: Authentication
+        url: authentication/arizona-state-university-authentication.yml
+      - type: IdentityFederation
+        url: https://mdq.incommon.org/entities/urn%3Amace%3Aincommon%3Aasu.edu
+      - type: Conformance
+        url: conformance/arizona-state-university-conformance.yml
+    x-operator: institution
+    x-operator-evidence: >-
+      The signed EntityDescriptor names OrganizationName "Arizona State University" and shibmd:Scope
+      "asu.edu"; the metadata is served from shibboleth2.asu.edu, ASU's own registrable domain, and
+      the SSO bindings point at the same host.
+    x-entity-id: urn:mace:incommon:asu.edu
+    x-sso-endpoint: https://shibboleth2.asu.edu/idp/profile/SAML2/Redirect/SSO
+    x-probe:
+      baseURL_status: 200
+      probed: '2026-09-01'
+      note: >-
+        1559 bytes of application/xml SAML metadata from ASU's own host. The SSO endpoint itself is
+        not a pointer — it requires a SAMLRequest — so it is recorded in x-sso-endpoint.
+  - aid: arizona-state-university:incommon-federation-registration
+    name: InCommon Federation registration (urn:mace:incommon:asu.edu)
+    description: >-
+      ASU's registration in the InCommon Federation, retrievable as signed SAML metadata from the
+      InCommon MDQ service and flowing onward into eduGAIN. This is the federation-operated copy of
+      the record whose IdP ASU itself runs; it is recorded here because it is the machine-readable
+      location an outside agent can actually resolve without knowing ASU's internal hostnames.
+    humanURL: https://spaces.at.internet2.edu/display/federation/metadata-service
+    baseURL: https://mdq.incommon.org/entities/urn%3Amace%3Aincommon%3Aasu.edu
+    tags: [ Identity Federation, InCommon, eduGAIN, SAML, Metadata ]
+    properties:
+      - type: IdentityFederation
+        url: https://mdq.incommon.org/entities/urn%3Amace%3Aincommon%3Aasu.edu
+      - type: Authentication
+        url: authentication/arizona-state-university-saml-idp-metadata.xml
+      - type: Documentation
+        url: https://spaces.at.internet2.edu/display/federation/metadata-service
+    x-operator: federation
+    x-operator-evidence: >-
+      mdq.incommon.org is InCommon's aggregate, shared by every member by definition — a federation
+      is not a vendor and this entry is not a misattribution. The entity it carries is ASU's own IdP.
+      A negative probe against a fabricated ASU entityID returns 404 NoSuchKey, so the 200 is a real
+      registration lookup.
+    x-probe:
+      baseURL_status: 200
+      probed: '2026-09-01'
+      negative_probe_status: 404
+  - aid: arizona-state-university:dataverse-api
+    name: ASU Library Research Data Repository API (Dataverse)
+    description: >-
+      The ASU Library Research Data Repository runs on the open-source Dataverse platform, on ASU's
+      own host, from an ASU-local build — /api/info/version returns
+      "6.11 asu-6.11-oai-rights". The native Dataverse REST API answers anonymously for info, search
+      and metrics: /api/search returns 104 datasets, each with a global_id under ASU's own DOI prefix
+      10.48349/ASU. ASU operates the deployment; the API contract itself is the Dataverse project's,
+      shared by every Dataverse installation, and is deliberately NOT held under this slug.
+    humanURL: https://lib.asu.edu/research/research-data-repository
     baseURL: https://dataverse.asu.edu/api
     tags: [ Research Data, Repository, Dataverse, Open Data, Datasets ]
     properties:
       - type: Documentation
         url: https://guides.dataverse.org/en/latest/api/
-      - type: Documentation
-        url: https://dataverse.asu.edu/api/info/version
+      - type: ResearchRepository
+        url: https://lib.asu.edu/research/research-data-repository
+    x-operator: institution
+    x-operator-evidence: >-
+      Host dataverse.asu.edu is under ASU's own registrable domain and CNAMEs only to Cloudflare CDN
+      (dataverse.asu.edu.cdn.cloudflare.net), not to a vendor platform. The version string carries an
+      ASU-local build tag and the OAI adminEmail is dataverse@asu.edu.
+    x-contract-operator: dataverse-project
+    x-contract-note: >-
+      The Dataverse native API specification is the Dataverse project's product contract, identical
+      across every installation. Saving it here would credit ASU with someone else's engineering, so
+      the deployment is recorded and the contract is not.
+    x-probe:
+      baseURL_status: 404
+      probed: '2026-09-01'
+      version: 6.11 asu-6.11-oai-rights
+      dataset_count: 104
+      baseURL_note: >-
+        The bare /api prefix returns a Dataverse JSON 404 ("API endpoint does not exist on this
+        server"); /api/info/version, /api/search and /api/info/metrics/datasets all return 200.
+      negative_probe: https://dataverse.asu.edu/api/info/NOT-A-REAL-ENDPOINT-12345
+      negative_probe_status: 404
+      note: >-
+        The Dataverse HTML UI at https://dataverse.asu.edu/ returns 403 ("ASU error page") to a
+        scripted browser User-Agent — an edge bot rule, not an outage. The API paths under /api are
+        unaffected. humanURL therefore points at the ASU Library landing page, which returns 200.
   - aid: arizona-state-university:dataverse-oai
     name: ASU Research Data Repository OAI-PMH
     description: >-
-      The ASU Library Research Data Repository Dataverse OAI Archive exposes an
-      OAI-PMH 2.0 metadata harvesting endpoint. The Identify verb responds
-      publicly, allowing harvesting of dataset metadata records.
+      OAI-PMH 2.0 metadata harvesting endpoint for the ASU Library Research Data Repository.
+      repositoryName "ASU Library Research Data Repository Dataverse OAI Archive", adminEmail
+      dataverse@asu.edu, earliestDatestamp 2025-02-12. Serves both DataCite kernel-4 and oai_dc
+      metadata prefixes, anonymously and without a key.
     humanURL: https://lib.asu.edu/research/research-data-repository
     baseURL: https://dataverse.asu.edu/oai
     tags: [ Research Data, OAI-PMH, Metadata Harvesting, Repository ]
     properties:
       - type: Documentation
         url: https://guides.dataverse.org/en/latest/admin/harvestserver.html
-  - aid: arizona-state-university:course-catalog
-    name: ASU Course Catalog & Class Search
+      - type: Conformance
+        url: conformance/arizona-state-university-conformance.yml
+    x-operator: institution
+    x-operator-evidence: >-
+      Institution-hosted OAI-PMH on ASU's own domain; OAI-PMH is an open protocol, not a vendor
+      contract, so the endpoint is ASU's even though the repository software is not.
+    x-probe:
+      baseURL_status: 200
+      probed: '2026-09-01'
+      verbs_verified: [ Identify, ListMetadataFormats, ListSets, ListIdentifiers, ListRecords ]
+      negative_probe: https://dataverse.asu.edu/oai?verb=NotAVerb
+      negative_probe_detail: returns an OAI-PMH badVerb error element, confirming a real implementation
+  - aid: arizona-state-university:keep-oai
+    name: ASU Library KEEP OAI-PMH
     description: >-
-      ASU publishes a public course catalog and class search at
-      catalog.apps.asu.edu (with a legacy interface at webapp4.asu.edu). It
-      provides searchable real-time course and section data through a web
-      interface. No officially documented public API is published; third-party
-      tools consume the catalog via scraping and undocumented endpoints.
+      OAI-PMH 2.0 endpoint for KEEP, the ASU Library digital repository, running on Islandora that
+      ASU Library builds and deploys itself in public at github.com/asulibraries (islandora-repo,
+      "ASU Digital Repository on Islandora"). repositoryName "ASU Library | KEEP", adminEmail
+      digitalrepository@asu.edu, earliestDatestamp 2011-05-06, repositoryIdentifier
+      keep.lib.asu.edu, sets oai_pmh:all and oai_pmh:repo_items. Anonymous and unauthenticated. This
+      surface was not in the June 2026 profile.
+    humanURL: https://lib.asu.edu/
+    baseURL: https://keep.lib.asu.edu/oai/request
+    tags: [ Research Repository, OAI-PMH, Metadata Harvesting, Islandora, Digital Collections ]
+    properties:
+      - type: Conformance
+        url: conformance/arizona-state-university-conformance.yml
+      - type: SourceCode
+        url: https://github.com/asulibraries/islandora-repo
+    x-operator: institution
+    x-operator-evidence: >-
+      Host keep.lib.asu.edu is ASU's own; the software is open-source Islandora whose ASU
+      customisations are developed publicly under github.com/asulibraries; adminEmail is
+      digitalrepository@asu.edu.
+    x-probe:
+      baseURL_status: 200
+      probed: '2026-09-01'
+      verbs_verified: [ Identify, ListMetadataFormats, ListSets, ListIdentifiers ]
+      note: >-
+        The KEEP HTML UI returns 403 ("ASU error page") on several paths to a scripted User-Agent —
+        an edge bot rule. /oai/request is unaffected and returns 200 with valid OAI-PMH XML.
+  - aid: arizona-state-university:prism-oai
+    name: ASU Library PRISM OAI-PMH
+    description: >-
+      OAI-PMH 2.0 endpoint for PRISM, ASU Library's second Islandora digital-collections repository.
+      repositoryName "ASU Library | PRISM", adminEmail digitalrepository@asu.edu, earliestDatestamp
+      2011-05-11, repositoryIdentifier prism.lib.asu.edu. Anonymous and unauthenticated. This
+      surface was not in the June 2026 profile.
+    humanURL: https://lib.asu.edu/
+    baseURL: https://prism.lib.asu.edu/oai/request
+    tags: [ Research Repository, OAI-PMH, Metadata Harvesting, Islandora, Digital Collections ]
+    properties:
+      - type: Conformance
+        url: conformance/arizona-state-university-conformance.yml
+      - type: SourceCode
+        url: https://github.com/asulibraries/islandora-repo
+    x-operator: institution
+    x-operator-evidence: >-
+      Host prism.lib.asu.edu is ASU's own; adminEmail digitalrepository@asu.edu; the Islandora
+      deployment is ASU Library's own, developed in public.
+    x-probe:
+      baseURL_status: 200
+      probed: '2026-09-01'
+      verbs_verified: [ Identify ]
+  - aid: arizona-state-university:course-catalog-api
+    name: ASU Course Catalog microservices API
+    description: >-
+      ASU's own course, class and subject search API, running at
+      eadvs-cscc-catalog-api.apps.asu.edu/catalog-microservices/api/v1 and consumed by the public
+      class-search single-page application at catalog.apps.asu.edu. Endpoints observed include
+      /search/terms, /search/subjects, /search/classes, /search/courses, /search/seats,
+      /search/cohortcount and /search/reservedseats. ASU-built and ASU-hosted, but OAuth-gated: every
+      path returns 401 Unauthorized without a bearer token obtained against an ASU client_id, and no
+      client registration, token endpoint or scope catalogue is published for outside developers.
+      The catalog itself is public through the web UI only; third-party tools scrape it.
     humanURL: https://catalog.apps.asu.edu/catalog/classes
-    tags: [ Course Catalog, Class Search, Education, Undocumented ]
+    baseURL: https://eadvs-cscc-catalog-api.apps.asu.edu/catalog-microservices/api/v1
+    tags: [ Course Catalog, Class Search, Registrar, Education, Undocumented, Gated ]
     properties:
-      - type: Documentation
+      - type: CourseCatalog
         url: https://catalog.apps.asu.edu/catalog/classes
-  - aid: arizona-state-university:sso-cas
-    name: ASU WebAuth (CAS / Shibboleth SSO)
+      - type: Authentication
+        url: authentication/arizona-state-university-authentication.yml
+    x-operator: institution
+    x-operator-evidence: >-
+      Host is under apps.asu.edu, ASU's own registrable domain; the SPA that calls it is served from
+      catalog.apps.asu.edu. No vendor name appears anywhere in the endpoint grammar or the bundle.
+    x-discovery: >-
+      Endpoint inventory read from the public SPA bundle
+      https://catalog.apps.asu.edu/assets/index-BkWV8O6a.js (200, 2342417 bytes) on 2026-09-01. The
+      SPA shell at /catalog/classes is 391 bytes of markup — link presence alone would have shown a
+      "public course catalog API" that does not exist.
+    x-probe:
+      baseURL_status: 404
+      probed: '2026-09-01'
+      operation_probe: https://eadvs-cscc-catalog-api.apps.asu.edu/catalog-microservices/api/v1/search/terms
+      operation_probe_status: 401
+      negative_probe: https://eadvs-cscc-catalog-api.apps.asu.edu/catalog-microservices/api/v1/NOT-REAL
+      negative_probe_status: 404
+      note: >-
+        The bare base path 404s (it is a prefix, not an operation); every real operation under it
+        401s; a fabricated operation 404s. The three differ, so the 401 is a genuine authorization
+        boundary on a live service rather than a catch-all. Graded LIVE but auth_required.
+  - aid: arizona-state-university:myasu-data-platform
+    name: myASU Data Platform API (api.myasuplat-dpl.asu.edu)
     description: >-
-      ASU operates an enterprise single sign-on service using the Central
-      Authentication Service (CAS) protocol with Shibboleth/SAML federation for
-      authenticating ASURITE accounts across university web applications. The CAS
-      login endpoint responds publicly; integration is restricted to approved
-      ASU service providers.
-    humanURL: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
+      ASU's internal data-platform API gateway, the issuer of the OAuth scopes the course-catalog
+      application requests (scopes/acad-plan/read, scopes/person/read, scopes/principal/read). The
+      host is live and answers JSON, but there is no public documentation, no published scope
+      catalogue, no client registration and no anonymous read path. Recorded because it is a real
+      ASU-operated programmable surface, not because it is usable by an outside agent.
+    humanURL: https://uto.asu.edu/services
+    baseURL: https://api.myasuplat-dpl.asu.edu
+    tags: [ Student Data, Data Platform, OAuth, Gated, Undocumented ]
+    properties:
+      - type: Authentication
+        url: authentication/arizona-state-university-authentication.yml
+    x-operator: institution
+    x-operator-evidence: >-
+      Host is under asu.edu and resolves to ASU-controlled addresses (44.240.182.93, 34.210.111.83),
+      with no vendor CNAME. The scope URIs are ASU-namespaced.
+    x-probe:
+      baseURL_status: 404
+      probed: '2026-09-01'
+      note: >-
+        GET /api returns application/json {"error":"Not Found"} — the host is up and JSON-native, but
+        no public entry point exists. Recorded as gated, not as dead.
+  - aid: arizona-state-university:sso-cas
+    name: ASU WebAuth (CAS single sign-on)
+    description: >-
+      ASU operates an enterprise single sign-on service using the Central Authentication Service
+      (CAS) protocol for authenticating ASURITE accounts across university web applications. A bare
+      GET returns a structured 401 error document, so the service is live and protocol-correct;
+      integration is restricted to ASU-approved service providers and there is no public
+      registration path.
+    humanURL: https://getprotected.asu.edu/services/identity-and-access-management/password-services
     baseURL: https://weblogin.asu.edu/cas
-    tags: [ Identity, Authentication, SSO, CAS, Shibboleth, SAML ]
+    tags: [ Identity, Authentication, SSO, CAS, Gated ]
+    properties:
+      - type: Authentication
+        url: authentication/arizona-state-university-authentication.yml
+    x-operator: institution
+    x-operator-evidence: Host weblogin.asu.edu is ASU's own registrable domain, fronted by Cloudflare CDN only.
+    x-probe:
+      baseURL_status: 401
+      probed: '2026-09-01'
+      note: >-
+        The previously recorded documentation pointer
+        getprotected.asu.edu/services/identity-and-access-management/authentication-services now
+        returns 403 "Access denied" and has been replaced with the password-services page from the
+        site's own sitemap, which returns 200.
+  - aid: arizona-state-university:datacite-registration
+    name: DataCite membership and repository registration
+    description: >-
+      ASU is a DataCite member (provider symbol ASU, memberType consortium_organization, created
+      2020-09-22) and mints DOIs through the institutional repository account ASU.ASUL, "Arizona
+      State University Library". The DOI prefix in use is 10.48349, visible on every dataset in the
+      ASU Dataverse. This is a registry membership, not a contract: the DataCite API is DataCite's
+      and is never saved here, but the membership is a fact about ASU and is recorded permanently.
+    humanURL: https://commons.datacite.org/repositories/asu.asul
+    baseURL: https://api.datacite.org/repositories/asu.asul
+    tags: [ DOI, Persistent Identifiers, DataCite, Registry, Research Data ]
+    properties:
+      - type: Conformance
+        url: conformance/arizona-state-university-conformance.yml
+    x-operator: registry
+    x-operator-evidence: >-
+      api.datacite.org is an identifier registry shared by every registrant by definition. ASU's
+      records within it (provider ASU, repository ASU.ASUL) are ASU's.
+    x-registrant-id: ASU.ASUL
+    x-doi-prefix: '10.48349'
+    x-probe:
+      baseURL_status: 200
+      probed: '2026-09-01'
+      humanURL_status: 429
+      humanURL_note: >-
+        commons.datacite.org answers a scripted User-Agent with a Vercel Security Checkpoint
+        (429, 32210 bytes). That is a bot challenge on a live host, not a dead pointer; the
+        machine-readable record at api.datacite.org returns 200.
+  - aid: arizona-state-university:crossref-registration
+    name: Crossref membership (member 37851)
+    description: >-
+      ASU is a Crossref member, id 37851, primary-name "Arizona State University", located in Tempe,
+      AZ, depositing under DOI prefix 10.58875 with 351 DOIs registered as of 2026-09-01. Recorded as
+      a registry membership; the Crossref API contract is Crossref's and is not held here.
+    humanURL: https://www.crossref.org/
+    baseURL: https://api.crossref.org/members/37851
+    tags: [ DOI, Persistent Identifiers, Crossref, Registry, Scholarly Publishing ]
+    properties:
+      - type: Conformance
+        url: conformance/arizona-state-university-conformance.yml
+    x-operator: registry
+    x-operator-evidence: api.crossref.org is a shared identifier registry; member record 37851 is ASU's.
+    x-registrant-id: '37851'
+    x-doi-prefix: '10.58875'
+    x-probe:
+      baseURL_status: 200
+      probed: '2026-09-01'
+  - aid: arizona-state-university:ror-registration
+    name: ROR organization record (03efmqc40)
+    description: >-
+      ASU's Research Organization Registry record, ror.org/03efmqc40, established 1885, status
+      active, domain asu.edu, carrying 11 Crossref Funder IDs, GRID grid.215654.1 and two ISNIs. A
+      registry membership and the canonical machine-readable identifier for the institution itself.
+    humanURL: https://ror.org/03efmqc40
+    baseURL: https://api.ror.org/v2/organizations/03efmqc40
+    tags: [ Persistent Identifiers, ROR, Registry, Organization Identifier ]
     properties:
       - type: Documentation
-        url: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
+        url: https://ror.org/03efmqc40
+    x-operator: registry
+    x-operator-evidence: api.ror.org is a shared organization registry; record 03efmqc40 is ASU's.
+    x-registrant-id: 03efmqc40
+    x-probe:
+      baseURL_status: 200
+      probed: '2026-09-01'
 common:
-  - type: VulnerabilityDisclosure
-    url: security/arizona-state-university-vulnerability-disclosure.yml
-  - type: DomainSecurity
-    url: security/arizona-state-university-domain-security.yml
   - type: Website
     url: https://www.asu.edu/
-  - type: GitHub
+  - type: Blog
+    url: https://news.asu.edu/
+  - type: BlogRSS
+    url: https://news.asu.edu/rss
+  - type: PrivacyPolicy
+    url: https://www.asu.edu/privacy/
+  - type: Support
+    url: https://links.asu.edu/
+  - type: GitHubOrganization
     url: https://github.com/ASU
+  - type: SourceCode
+    url: https://github.com/asulibraries
   - type: LinkedIn
     url: https://www.linkedin.com/school/arizona-state-university/
   - type: Twitter
     url: https://twitter.com/ASU
   - type: Authentication
-    url: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
-  - type: SourceCode
-    url: https://github.com/asulibraries
+    url: authentication/arizona-state-university-authentication.yml
+  - type: IdentityFederation
+    url: https://mdq.incommon.org/entities/urn%3Amace%3Aincommon%3Aasu.edu
+  - type: ResearchRepository
+    url: https://lib.asu.edu/research/research-data-repository
+  - type: LibraryCatalog
+    url: https://lib.asu.edu/
+  - type: CourseCatalog
+    url: https://catalog.apps.asu.edu/catalog/classes
+  - type: AIPolicy
+    url: https://provost.asu.edu/generative-ai
+  - type: AITooling
+    url: https://ai.asu.edu/ai-tools
+  - type: Conformance
+    url: conformance/arizona-state-university-conformance.yml
+  - type: VulnerabilityDisclosure
+    url: security/arizona-state-university-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/arizona-state-university-domain-security.yml
   - type: Plans
     url: plans/arizona-state-university-plans-pricing.yml
   - type: RateLimits
@@ -130,6 +451,81 @@ common:
     url: finops/arizona-state-university-finops.yml
   - type: Review
     url: review.yml
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    Eight institution-operated surfaces were found and verified by live probe on 2026-09-01, plus one
+    federation registration and three registry memberships. Four are anonymously callable right now:
+    the ASU Dataverse read API and the OAI-PMH 2.0 endpoints of ASU Dataverse, KEEP and PRISM — the
+    last two entirely new to this profile, both ASU Library Islandora deployments developed in public
+    at github.com/asulibraries. Four more are live but closed: the Shibboleth IdP (protocol-gated by
+    design), CAS WebAuth (401), the ASU-built course-catalog microservices API (401, discovered by
+    reading the public SPA bundle rather than the 391-byte SPA shell) and the myASU data platform
+    (live JSON host, no public entry point). ZERO tenant surfaces and ZERO vendor contracts are held
+    under this slug. The repository software ASU runs — Dataverse and Islandora — is open source and
+    self-hosted on ASU's own domains from ASU-local builds (the Dataverse version string is
+    "6.11 asu-6.11-oai-rights"), so the deployments are ASU's while the product specifications are
+    the upstream projects' and are deliberately not saved here. The profile is thin on OpenAPI
+    because ASU publishes none, not because the probe was thin: api.asu.edu, data.asu.edu,
+    open.asu.edu, developer.asu.edu and status.asu.edu do not resolve, there is no developer portal
+    and no self-service key anywhere on the estate. Five of the twelve education-regime domain
+    standards are evidenced — oai-pmh, shibboleth, saml, datacite, crossref — every one of them on a
+    host ASU operates or in a registry ASU is registered in. Two edge behaviours are recorded rather
+    than mistaken for outages: dataverse.asu.edu and keep.lib.asu.edu serve a 403 "ASU error page" to
+    a scripted User-Agent on their HTML paths while their API and OAI paths return 200, and one
+    previously recorded documentation pointer (getprotected.asu.edu .../authentication-services) has
+    gone to a hard 403 "Access denied" and was replaced from the site's own sitemap.
+  assessed: '2026-09-01'
+  method: pipeline-university + live probe
+  institution_surfaces: 8
+  tenant_surfaces: 0
+  federation_surfaces: 1
+  registry_surfaces: 3
+  vendor_surfaces_removed: 0
+  contracts_saved: 0
+  contracts_quarantined: 0
+  evidence:
+  - url: https://shibboleth2.asu.edu/idp/shibboleth
+    status: 200
+  - url: https://mdq.incommon.org/entities/urn%3Amace%3Aincommon%3Aasu.edu
+    status: 200
+  - url: https://mdq.incommon.org/entities/https%3A%2F%2Fweblogin.asu.edu%2Fidp%2Fshibboleth
+    status: 404
+  - url: https://dataverse.asu.edu/api/info/version
+    status: 200
+  - url: https://dataverse.asu.edu/api/search?q=*&type=dataset&per_page=1
+    status: 200
+  - url: https://dataverse.asu.edu/api/info/NOT-A-REAL-ENDPOINT-12345
+    status: 404
+  - url: https://dataverse.asu.edu/oai?verb=Identify
+    status: 200
+  - url: https://keep.lib.asu.edu/oai/request?verb=Identify
+    status: 200
+  - url: https://prism.lib.asu.edu/oai/request?verb=Identify
+    status: 200
+  - url: https://eadvs-cscc-catalog-api.apps.asu.edu/catalog-microservices/api/v1/search/terms
+    status: 401
+  - url: https://eadvs-cscc-catalog-api.apps.asu.edu/catalog-microservices/api/v1/NOT-REAL
+    status: 404
+  - url: https://weblogin.asu.edu/cas
+    status: 401
+  - url: https://api.myasuplat-dpl.asu.edu/api
+    status: 404
+  - url: https://api.datacite.org/repositories/asu.asul
+    status: 200
+  - url: https://api.crossref.org/members/37851
+    status: 200
+  - url: https://api.ror.org/v2/organizations/03efmqc40
+    status: 200
+  - url: https://api.asu.edu/
+    status: 0
+  - url: https://data.asu.edu/
+    status: 0
+  - url: https://developer.asu.edu/
+    status: 0
+  - url: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
+    status: 403
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
