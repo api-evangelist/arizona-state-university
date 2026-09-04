@@ -51,7 +51,7 @@ accessModel:
     and no signup, verified with no credentials on 2026-09-01. Everything else (CAS, the catalog
     microservices, the myASU data platform) is closed to outside developers with no public
     registration path at all.
-position: Consumer
+position: Consuming
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/arizona-state-university.png
 url: https://raw.githubusercontent.com/api-evangelist/arizona-state-university/refs/heads/main/apis.yml
