@@ -64,52 +64,106 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Arizona State University (ASU) is a large public research university in Tempe, Arizona, United States, ranked #200 in the QS World University Rankings 2025. This repository catalogs ASU's confirmed public developer and API footprint as an [APIs.json](https://apisjson.org) profile. ASU's strongest documented public API surface is its Library Research Data Repository, a Dataverse instance exposing a native REST API and OAI-PMH metadata harvesting, alongside a public course catalog, CAS/Shibboleth single sign-on, and an official GitHub organization.
+Arizona State University (ASU) is a large public research university in Tempe, Arizona, United States. This repository catalogs ASU's confirmed public programmable footprint as an [APIs.json](https://apisjson.org) profile, re-profiled on 2026-09-01 under the API Evangelist **university pipeline**, which settles *who operates* each surface before anything is credited to the institution.
+
+ASU operates no public developer portal, no self-service API keys and no open data portal — `api.asu.edu`, `data.asu.edu`, `open.asu.edu`, `developer.asu.edu` and `status.asu.edu` do not resolve. What it does operate is an identity and metadata layer: a Shibboleth SAML 2.0 Identity Provider registered in the InCommon Federation, a CAS single sign-on service, and **three** independent OAI-PMH 2.0 repositories on its own hosts.
 
 - APIs.json: https://raw.githubusercontent.com/api-evangelist/arizona-state-university/refs/heads/main/apis.yml
 - Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=arizona-state-university-api-evangelist&utm_content=repo
 
 ## Type
 
-- **Type:** Index
+- **Type:** Index (`x-type: university`)
+- **Category:** Public Research University
 - **Position:** Consumer
 - **Access:** 3rd-Party
 
 ## Tags
 
-Education, Higher Education, University, Research Data, Open Data, United States, Arizona
+University, Higher Education, Education, United States, Arizona, Public Research University, Research Data, Research Repository, Identity Federation, OAI-PMH, Course Catalog, Library
 
-## APIs
+## Surfaces, by operator
 
-- **ASU Library Research Data Repository API** — Dataverse 6.10.1 native REST API for datasets and metadata. Docs: https://guides.dataverse.org/en/latest/api/ — Base: https://dataverse.asu.edu/api
-- **ASU Research Data Repository OAI-PMH** — OAI-PMH 2.0 metadata harvesting endpoint. Docs: https://guides.dataverse.org/en/latest/admin/harvestserver.html — Base: https://dataverse.asu.edu/oai
-- **ASU Course Catalog & Class Search** — public course/class search (no officially documented public API). Docs: https://catalog.apps.asu.edu/catalog/classes
-- **ASU WebAuth (CAS / Shibboleth SSO)** — enterprise single sign-on, gated to approved service providers. Docs: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
+Every entry carries an `x-operator` saying **who runs the thing it describes** — not how we came to hold it.
 
-## Plans, Rate Limits & FinOps
+### `institution` — ASU's own hosts, ASU's own operation (8)
 
+| Surface | Base | Probe |
+|---|---|---|
+| ASU Shibboleth SAML 2.0 Identity Provider | `https://shibboleth2.asu.edu/idp/shibboleth` | 200 |
+| ASU Library Research Data Repository API (Dataverse) | `https://dataverse.asu.edu/api` | 200 on operations |
+| ASU Research Data Repository OAI-PMH | `https://dataverse.asu.edu/oai` | 200 |
+| ASU Library **KEEP** OAI-PMH | `https://keep.lib.asu.edu/oai/request` | 200 |
+| ASU Library **PRISM** OAI-PMH | `https://prism.lib.asu.edu/oai/request` | 200 |
+| ASU Course Catalog microservices API | `https://eadvs-cscc-catalog-api.apps.asu.edu/catalog-microservices/api/v1` | 401 (gated) |
+| myASU Data Platform API | `https://api.myasuplat-dpl.asu.edu` | live, no public entry point |
+| ASU WebAuth (CAS SSO) | `https://weblogin.asu.edu/cas` | 401 (gated) |
+
+### `federation` — shared by definition, the entity inside it is ASU's (1)
+
+- **InCommon Federation registration**, entityID `urn:mace:incommon:asu.edu` — `https://mdq.incommon.org/entities/urn%3Amace%3Aincommon%3Aasu.edu` (200, signed SAML metadata, saved locally)
+
+### `registry` — identifier registries ASU is registered in (3)
+
+- **DataCite** — member `ASU`, repository `ASU.ASUL` (Arizona State University Library), DOI prefix `10.48349`
+- **Crossref** — member `37851`, DOI prefix `10.58875`, 351 DOIs
+- **ROR** — `https://ror.org/03efmqc40`
+
+### `tenant` / `vendor` — none
+
+No tenant relationship and **no vendor contract** is held under this slug. Dataverse and Islandora are open-source projects ASU deploys and patches itself (the Dataverse build string is `6.11 asu-6.11-oai-rights`; the Islandora work is public at [github.com/asulibraries](https://github.com/asulibraries)). The deployments are ASU's; the product specifications belong to the upstream projects and are deliberately not saved here.
+
+## Domain standard conformance (`education` regime)
+
+Five of twelve evidenced, each pointing at a fetched location with a status code — see [conformance/arizona-state-university-conformance.yml](conformance/arizona-state-university-conformance.yml).
+
+- **oai-pmh** — three live repositories (Dataverse, KEEP, PRISM)
+- **shibboleth** / **saml** — InCommon-registered IdP, metadata served from ASU's own host
+- **datacite** — member + institutional repository account + DataCite kernel-4 metadata prefix
+- **crossref** — member 37851
+
+Not found: `scim`, `lti`, `oneroster`, `ed-fi`, `caliper`, `qti`, `orcid`.
+
+## Artifacts
+
+- Authentication: [authentication/arizona-state-university-authentication.yml](authentication/arizona-state-university-authentication.yml)
+- SAML IdP metadata: [authentication/arizona-state-university-saml-idp-metadata.xml](authentication/arizona-state-university-saml-idp-metadata.xml)
+- Conformance: [conformance/arizona-state-university-conformance.yml](conformance/arizona-state-university-conformance.yml)
 - Plans & Pricing: [plans/arizona-state-university-plans-pricing.yml](plans/arizona-state-university-plans-pricing.yml)
 - Rate Limits: [rate-limits/arizona-state-university-rate-limits.yml](rate-limits/arizona-state-university-rate-limits.yml)
 - FinOps: [finops/arizona-state-university-finops.yml](finops/arizona-state-university-finops.yml)
+- Review: [review.yml](review.yml)
 
 ## Timestamps
 
 - **Created:** 2026-06-03
-- **Modified:** 2026-06-03
+- **Modified:** 2026-09-01
 
 ## Common Properties
 
 - Website: https://www.asu.edu/
-- GitHub: https://github.com/ASU
+- Blog: https://news.asu.edu/
+- Privacy Policy: https://www.asu.edu/privacy/
+- Support: https://links.asu.edu/
+- GitHub Organization: https://github.com/ASU
+- Source Code (Libraries): https://github.com/asulibraries
 - LinkedIn: https://www.linkedin.com/school/arizona-state-university/
 - Twitter: https://twitter.com/ASU
-- Authentication: https://getprotected.asu.edu/services/identity-and-access-management/authentication-services
-- Source Code (Libraries): https://github.com/asulibraries
-- Review: [review.yml](review.yml)
+- Identity Federation: https://mdq.incommon.org/entities/urn%3Amace%3Aincommon%3Aasu.edu
+- Research Repository: https://lib.asu.edu/research/research-data-repository
+- Library: https://lib.asu.edu/
+- Course Catalog: https://catalog.apps.asu.edu/catalog/classes
+- AI Policy: https://provost.asu.edu/generative-ai
+- AI Tooling: https://ai.asu.edu/ai-tools
 
 ## Notes
 
-All endpoints in this profile were probed live during cataloging (see [review.yml](review.yml)). The Dataverse REST API and OAI-PMH endpoints returned HTTP 200 with valid responses. The course catalog resolves publicly but has no officially documented public API — third-party tools consume it via scraping and undocumented endpoints, so no base URL is asserted here. CAS/Shibboleth SSO is live but restricted to approved ASU service providers. No endpoints were fabricated; gated or undocumented surfaces are described honestly.
+Every pointer and every base URL in this profile was probed live on 2026-09-01, with negative probes to rule out soft-404 credit. Two findings worth keeping:
+
+- `dataverse.asu.edu` and `keep.lib.asu.edu` return **403 "ASU error page"** to a scripted User-Agent on their HTML paths while their API and OAI paths return 200. That is an edge bot rule, not an outage.
+- The previously recorded documentation pointer `getprotected.asu.edu/services/identity-and-access-management/authentication-services` has gone to a hard **403 Access denied** and was replaced from the site's own sitemap.
+
+The course-catalog API was found by reading the public single-page-application bundle at `catalog.apps.asu.edu` — the page itself is a 391-byte SPA shell, and link presence alone would have shown a "public course catalog API" that does not exist. No endpoints were fabricated; gated and undocumented surfaces are described as such.
 
 ## Maintainers
 

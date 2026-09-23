@@ -1,0 +1,222 @@
+---
+generated: '2026-09-01'
+method: probed
+source: >-
+  Live probes on 2026-09-01 against the Kin Score `education` regime's domain standards list. Every
+  claim below points at a specific fetched location with a status code. Reward-only: standards not
+  evidenced are recorded as not_found rather than assumed. Negative probes were run against each
+  live surface to rule out soft-404 credit.
+regime: education
+regime_id: education
+standards_probed:
+- scim
+- lti
+- oneroster
+- ed-fi
+- caliper
+- qti
+- oai-pmh
+- shibboleth
+- saml
+- orcid
+- datacite
+- crossref
+
+conformance:
+
+- standard: oai-pmh
+  status: conformant
+  x-operator: institution
+  confidence: high
+  summary: >-
+    ASU operates THREE independent OAI-PMH 2.0 repositories on its own hosts — the Library Research
+    Data Repository (Dataverse), KEEP and PRISM (both ASU Library Islandora deployments). All three
+    answer Identify, ListMetadataFormats and ListIdentifiers anonymously.
+  evidence:
+  - location: https://dataverse.asu.edu/oai?verb=Identify
+    status: 200
+    detail: >-
+      repositoryName "ASU Library Research Data Repository Dataverse OAI Archive", baseURL
+      https://dataverse.asu.edu/oai, protocolVersion 2.0, adminEmail dataverse@asu.edu,
+      earliestDatestamp 2025-02-12T15:11:26Z, granularity YYYY-MM-DDThh:mm:ssZ.
+  - location: https://dataverse.asu.edu/oai?verb=ListMetadataFormats
+    status: 200
+    detail: Advertises the Datacite (kernel-4) and oai_dc metadata prefixes.
+  - location: https://keep.lib.asu.edu/oai/request?verb=Identify
+    status: 200
+    detail: >-
+      repositoryName "ASU Library | KEEP", adminEmail digitalrepository@asu.edu, earliestDatestamp
+      2011-05-06T20:07:42Z, repositoryIdentifier keep.lib.asu.edu, sampleIdentifier
+      oai:keep.lib.asu.edu:node-1.
+  - location: https://keep.lib.asu.edu/oai/request?verb=ListSets
+    status: 200
+    detail: 'Sets: oai_pmh:all (All Items), oai_pmh:repo_items (Non-Primo Items).'
+  - location: https://prism.lib.asu.edu/oai/request?verb=Identify
+    status: 200
+    detail: >-
+      repositoryName "ASU Library | PRISM", adminEmail digitalrepository@asu.edu, earliestDatestamp
+      2011-05-11T21:44:38Z, repositoryIdentifier prism.lib.asu.edu.
+  negative_probe:
+    location: https://keep.lib.asu.edu/oai/request?verb=NotAVerb
+    status: 200
+    detail: >-
+      Returns an OAI-PMH badVerb error element rather than a generic page — protocol-correct
+      behaviour, confirming a real OAI-PMH implementation and not a soft 200.
+
+- standard: shibboleth
+  status: conformant
+  x-operator: institution
+  confidence: high
+  summary: >-
+    ASU operates a Shibboleth Identity Provider registered in the InCommon Federation under entityID
+    urn:mace:incommon:asu.edu, and serves its own entity descriptor from its own host.
+  evidence:
+  - location: https://mdq.incommon.org/entities/urn%3Amace%3Aincommon%3Aasu.edu
+    status: 200
+    detail: >-
+      Signed SAML EntityDescriptor, 6702 bytes, OrganizationName "Arizona State University",
+      shibmd:Scope "asu.edu", IDPSSODescriptor present. Saved as
+      authentication/arizona-state-university-saml-idp-metadata.xml.
+  - location: https://shibboleth2.asu.edu/idp/shibboleth
+    status: 200
+    detail: >-
+      ASU's own Shibboleth IdP metadata endpoint, 1559 bytes, application/xml — institution-served,
+      not merely institution-named in someone else's federation aggregate.
+  - location: authentication/arizona-state-university-authentication.yml
+    status: local
+    detail: Endpoint bindings recorded in the authentication artifact.
+  negative_probe:
+    location: https://mdq.incommon.org/entities/https%3A%2F%2Fweblogin.asu.edu%2Fidp%2Fshibboleth
+    status: 404
+    detail: >-
+      MDQ returns NoSuchKey for a fabricated ASU entityID, so the 200 above is a real registration
+      lookup and not a wildcard.
+
+- standard: saml
+  status: conformant
+  x-operator: institution
+  confidence: high
+  summary: >-
+    SAML 2.0 Identity Provider, discoverable through federation metadata rather than a developer
+    portal.
+  evidence:
+  - location: https://mdq.incommon.org/entities/urn%3Amace%3Aincommon%3Aasu.edu
+    status: 200
+    detail: >-
+      IDPSSODescriptor advertises protocolSupportEnumeration
+      urn:oasis:names:tc:SAML:2.0:protocol with HTTP-Redirect
+      (https://shibboleth2.asu.edu/idp/profile/SAML2/Redirect/SSO) and HTTP-POST
+      (https://shibboleth2.asu.edu/idp/profile/SAML2/POST/SSO) SingleSignOnService bindings, plus
+      mdui:UIInfo carrying DisplayName, InformationURL https://www.asu.edu/about and
+      PrivacyStatementURL https://www.asu.edu/privacy/.
+
+- standard: datacite
+  status: conformant
+  x-operator: registry
+  confidence: high
+  summary: >-
+    ASU is a DataCite member and mints DOIs through an institutional repository account. Its
+    Dataverse OAI-PMH endpoint also serves DataCite kernel-4 metadata, so the conformance is
+    both membership AND a machine-readable metadata format.
+  evidence:
+  - location: https://api.datacite.org/providers/asu
+    status: 200
+    detail: >-
+      DataCite member record, symbol ASU, name "Arizona State University", memberType
+      consortium_organization, country US, created 2020-09-22.
+  - location: https://api.datacite.org/repositories/asu.asul
+    status: 200
+    detail: >-
+      DataCite repository record, symbol ASU.ASUL, name "Arizona State University Library",
+      clientType repository, repositoryType [institutional], created 2020-09-22.
+  - location: https://dataverse.asu.edu/oai?verb=ListMetadataFormats
+    status: 200
+    detail: metadataPrefix "Datacite" with schema http://datacite.org/schema/kernel-4.
+  - location: https://dataverse.asu.edu/api/search?q=*&type=dataset&per_page=1
+    status: 200
+    detail: >-
+      total_count 104 datasets, global_id values of the form doi:10.48349/ASU/… — the ASU DOI
+      prefix minted under the ASU.ASUL repository account.
+  registrant_ids:
+    datacite_provider: ASU
+    datacite_repository: ASU.ASUL
+    doi_prefix: 10.48349
+
+- standard: crossref
+  status: conformant
+  x-operator: registry
+  confidence: high
+  summary: ASU is a Crossref member and deposits DOIs under its own prefix.
+  evidence:
+  - location: https://api.crossref.org/members/37851
+    status: 200
+    detail: >-
+      primary-name "Arizona State University", location "Tempe, AZ, United States", prefixes
+      [10.58875], counts.total-dois 351.
+  registrant_ids:
+    crossref_member_id: 37851
+    doi_prefix: 10.58875
+
+- standard: orcid
+  status: not_found
+  x-operator: unknown
+  confidence: medium
+  summary: >-
+    No institution-operated ORCID surface was evidenced. 14,446 ORCID records carry an
+    "Arizona State University" affiliation, but that is a fact about ASU's researchers, not an
+    ASU-operated integration, and no ORCID member/consortium record for ASU was retrievable from a
+    public API.
+  evidence:
+  - location: https://pub.orcid.org/v3.0/expanded-search/?q=affiliation-org-name:%22Arizona%20State%20University%22&rows=1
+    status: 200
+    detail: num-found 14446 personal records. Not credited — this is researcher-side, not institutional.
+
+- standard: scim
+  status: not_found
+  x-operator: unknown
+  confidence: medium
+  summary: No public SCIM provisioning endpoint or documentation found on any asu.edu host.
+
+- standard: lti
+  status: not_found
+  x-operator: unknown
+  confidence: medium
+  summary: >-
+    ASU runs Canvas for its LMS, which is LTI-capable, but the LTI surface is Instructure's product
+    behaviour on a tenant deployment, not an ASU-published conformance. Not credited.
+
+- standard: oneroster
+  status: not_found
+  x-operator: unknown
+  confidence: medium
+  summary: No OneRoster endpoint or claim found.
+
+- standard: ed-fi
+  status: not_found
+  x-operator: unknown
+  confidence: medium
+  summary: No Ed-Fi endpoint or claim found. Ed-Fi is a K-12 standard; a research university is an unlikely publisher.
+
+- standard: caliper
+  status: not_found
+  x-operator: unknown
+  confidence: medium
+  summary: No Caliper Analytics endpoint or claim found.
+
+- standard: qti
+  status: not_found
+  x-operator: unknown
+  confidence: medium
+  summary: No QTI surface found.
+
+notes:
+- >-
+  Five of the twelve education-regime standards are evidenced, and all five are on hosts ASU itself
+  operates or in registries ASU itself is registered in. None of the five was reached through a
+  vendor's contract.
+- >-
+  The three OAI-PMH repositories are the surface class this cohort was most consistently missing:
+  they are institution-hosted even though two of them run open-source repository software
+  (Dataverse, Islandora) that ASU deploys and patches itself — the Dataverse build string is
+  "6.11 asu-6.11-oai-rights", an ASU-local build, and the Islandora deployments are developed in
+  public at github.com/asulibraries.

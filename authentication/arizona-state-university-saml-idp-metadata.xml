@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" ID="_ca633949-f6e7-4a94-935e-178f0b50d0ca" entityID="urn:mace:incommon:asu.edu" validUntil="2026-09-15T18:37:25.091Z"><Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><Reference URI="#_ca633949-f6e7-4a94-935e-178f0b50d0ca"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><DigestValue>JD4BZkmSty1asx5ioeOzacmYGYQrCmKZXlCTj/XM6NA=</DigestValue></Reference></SignedInfo><SignatureValue>gJ83UraER2YLiXx/gZP4MXtGNb/HKFXUrSJ8t1LP1lwUT9+xqz346npHkIriIGd89PUQs6G7xxHs
+1F5JZ6UpDdpcfPvrUHDatBxpBstu1DN1h7XecMLeME8Yl6eWbnE8eFYCgA27YGM1a/CW2/CVvU0I
+tvHcJGaDJM7ZprdPPEcwtj5sylhmeP/wjays64t5wk23HuYrRlL1VfnrmH7YOnGez8YyGcY7+MKK
+Fq9JAGu0kqwsULSpv8q2Q2I0y2+vlCSwCDBAEpBRKLFmnsDLlAf0LFhC5XAKmC7NN/VBBWMgKDcU
+zyMfJYbEEhHbiegvbXn1ppGuuL8SddyGWi0Xx14vW5u/QAZU0eIY2bRtMA1mmwSrmsMev/e20uzk
+lE68hu58GEpaDzWv0XJpyQSD617G4cB7C4exhv0zWa3F+CDuUPKxV4bKIvBJEcs6R+AGuJw/3hZr
+DPwGVaP22YTxGNh1dac2ZLQ1KFYntOQLnPq+4cyWbD/OgYa+L2f5hCxD</SignatureValue></Signature>
+  <Extensions>
+    <mdrpi:RegistrationInfo xmlns:mdrpi="urn:oasis:names:tc:SAML:metadata:rpi" registrationAuthority="https://incommon.org"/>
+    <mdattr:EntityAttributes xmlns:mdattr="urn:oasis:names:tc:SAML:metadata:attribute">
+      <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" Name="http://macedir.org/entity-category-support" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <saml:AttributeValue>http://id.incommon.org/category/research-and-scholarship</saml:AttributeValue>
+        <saml:AttributeValue>http://refeds.org/category/research-and-scholarship</saml:AttributeValue>
+      </saml:Attribute>
+      <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" Name="urn:oasis:names:tc:SAML:attribute:assurance-certification" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <saml:AttributeValue>https://refeds.org/sirtfi</saml:AttributeValue>
+      </saml:Attribute>
+      <saml:Attribute xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" Name="http://macedir.org/entity-category" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <saml:AttributeValue>http://id.incommon.org/category/registered-by-incommon</saml:AttributeValue>
+      </saml:Attribute>
+    </mdattr:EntityAttributes>
+  </Extensions>
+  <IDPSSODescriptor errorURL="https://uto.asu.edu/saml-error" protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <Extensions>
+      <shibmd:Scope xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" regexp="false">asu.edu</shibmd:Scope>
+      <mdui:UIInfo xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui">
+        <mdui:DisplayName xml:lang="en">Arizona State University</mdui:DisplayName>
+        <mdui:InformationURL xml:lang="en">https://www.asu.edu/about</mdui:InformationURL>
+        <mdui:PrivacyStatementURL xml:lang="en">https://www.asu.edu/privacy/</mdui:PrivacyStatementURL>
+        <mdui:Logo height="72" width="400" xml:lang="en">https://www.asu.edu/asuthemes/4.6/assets/full_logo.png</mdui:Logo>
+      </mdui:UIInfo>
+    </Extensions>
+    <KeyDescriptor use="signing">
+      <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:X509Data>
+          <!-- Serial No. 737051971464214349832325621809304097555412250953, expires on Mon Dec  6 00:58:58 2032 GMT -->
+          <ds:X509Certificate>
+MIIDODCCAiCgAwIBAgIVAIEaja/L6bBgSu+JKg1QGKs5jXFJMA0GCSqGSIb3DQEB
+BQUAMB4xHDAaBgNVBAMTE3NoaWJib2xldGgyLmFzdS5lZHUwHhcNMTIxMjA2MDA1
+ODU4WhcNMzIxMjA2MDA1ODU4WjAeMRwwGgYDVQQDExNzaGliYm9sZXRoMi5hc3Uu
+ZWR1MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg/vJpDGOPsQ//Gew
+8luCxJ6PxezIHYovddn246ZlkFKPKN0RJpZuCLxkWUBbz2P69Be7pbU9nuNHcfjG
+kzcxHM90hYvihcutx4cP79bJK/97HTonsiQw8DT+rsFkagsOfNSpUKPREgENFlTX
+Kc0KNBF4l+AbczLlYs/QygB1NjAWezQaJpElhtlpaaQoVizo9oFNbtQc5mEWnxEq
+wFR0k/HD1A7oI2hd819yMu+I4IbJVvvMyXTJaadInLxFw9mXR8A1JDI0QkHX5xSa
+G3gFnNMmVNfwCAQG2ZeRcdfiZ/WSGdrYM34QhyYDL1/qDdr3gDGm5Jj0wC2W8D0b
+4MSG3QIDAQABo20wazBKBgNVHREEQzBBghNzaGliYm9sZXRoMi5hc3UuZWR1hipo
+dHRwczovL3NoaWJib2xldGgyLmFzdS5lZHUvaWRwL3NoaWJib2xldGgwHQYDVR0O
+BBYEFDp/jP+Da0W8YoAWrzOzM/Y6Z3KuMA0GCSqGSIb3DQEBBQUAA4IBAQBkS0zf
+yDXzS/dRqqCmwinbR8mVcvsyBWsuGJQDiFIj/6WqT7lrYtp2igZXeu1V3R8XCQ4A
+JWuxXUB2zAvri8plWMhs/4s1HkeF8OZ647yoonTMxdMLheUyf/Ph+PKBs9SxANVj
+I4IYpbZZShg8HnDIDl8GdR/DTXC96VCARffmf1uu8ixzqceTMwhR6V1DgM4DIVQr
+E2VLaHwxQUzc7qxfLLwl8J+W7dd+LaTndoFtkpW7QLQUandHQWLzGt4lt7ahfbvz
+/InkWSyJ1jS/ihPrRrjyu7A3iTXITNxMow2gC1/u0Ho6FqzunXlgC4bcdGPcQiDK
+CatfNOBqeNRAh5p0
+          </ds:X509Certificate>
+        </ds:X509Data>
+      </ds:KeyInfo>
+    </KeyDescriptor>
+    <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://shibboleth2.asu.edu/idp/profile/SAML2/Redirect/SSO"/>
+    <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://shibboleth2.asu.edu/idp/profile/SAML2/POST/SSO"/>
+  </IDPSSODescriptor>
+  <Organization>
+    <OrganizationName xml:lang="en">Arizona State University</OrganizationName>
+    <OrganizationDisplayName xml:lang="en">Arizona State University</OrganizationDisplayName>
+    <OrganizationURL xml:lang="en">http://www.asu.edu/</OrganizationURL>
+  </Organization>
+  <ContactPerson contactType="support">
+    <GivenName>UTO EDNA Team</GivenName>
+    <EmailAddress>mailto:ednateam@asu.edu</EmailAddress>
+  </ContactPerson>
+  <ContactPerson contactType="support">
+    <GivenName>Certificate Support</GivenName>
+    <EmailAddress>mailto:ops.ss.certificates@mainex1.asu.edu</EmailAddress>
+  </ContactPerson>
+  <ContactPerson contactType="support">
+    <GivenName>UTO CANES IdM Engineering</GivenName>
+    <EmailAddress>mailto:ednateam@asu.edu</EmailAddress>
+  </ContactPerson>
+  <ContactPerson contactType="administrative">
+    <GivenName>Joseph McDonald</GivenName>
+    <EmailAddress>mailto:jmcdonald@asu.edu</EmailAddress>
+  </ContactPerson>
+  <ContactPerson xmlns:remd="http://refeds.org/metadata" contactType="other" remd:contactType="http://refeds.org/metadata/contactType/security">
+    <GivenName>ASU ISO Team</GivenName>
+    <EmailAddress>mailto:infosec@asu.edu</EmailAddress>
+  </ContactPerson>
+  <ContactPerson contactType="technical">
+    <GivenName>UTO CANES IdM Engineering</GivenName>
+    <EmailAddress>mailto:ednateam@asu.edu</EmailAddress>
+  </ContactPerson>
+</EntityDescriptor>
