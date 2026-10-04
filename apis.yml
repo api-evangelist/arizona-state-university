@@ -24,15 +24,19 @@ x-type: university
 x-category: Public Research University
 deliveryModel:
   model: saas
-  open_source: false
+  license_evidence:
+    not_product:
+    - asulibraries/islandora-repo
+  open_source: unknown
   commercial: true
-  callable_host: true
+  callable_host: false
   label: Hosted service · you call their endpoint
-  confidence: medium
+  confidence: low
   source:
-  - probe
-  generated: '2026-09-01'
-  method: probed
+  - pricing
+  - repository-not-product
+  generated: '2026-09-25'
+  method: derived
 accessModel:
   pricing: free
   onboarding: none
